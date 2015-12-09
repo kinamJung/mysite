@@ -11,11 +11,17 @@
 		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 		<div id="content">
 			<div id="user">
-				<p class="jr-success">
-					회원가입을 축하합니다.
-					<br><br>
-					<a href="/mysite/user?a=loginForm">로그인하기</a>
-				</p>				
+				<form id="login-form" name="loginform" method="post" action="/mysite/user">
+					<input type="hidden" name="a" value="login">
+					<label class="block-label" for="email">이메일</label>
+					<input id="email" name="email" type="text" value="">
+					<label class="block-label" >패스워드</label>
+					<input name="password" type="password" value="">
+					<p>
+						로그인이 실패 했습니다.
+					</p>
+					<input type="submit" value="로그인">
+				</form>
 			</div>
 		</div>
 		<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
