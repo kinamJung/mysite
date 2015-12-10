@@ -13,16 +13,20 @@
 <html>
 <head>
 <title>MySite</title>
+
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <link href="/mysite/assets/css/board.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"/>
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="/mysite/bs">
-					<input type="hidden" name="no" value="<%=no%>">
+					<input type="hidden" name="no" value="${param.no}">
 					<input type = "hidden" name = "a" value="write">
 					<table class="tbl-ex">
 						<tr>
@@ -40,14 +44,16 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="/mysite/board">취소</a>
+						<a href="/mysite/bs">취소</a>
 						<input type="submit" value="등록">
 					</div>
 				</form>				
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/navigation.jsp">
+			<c:param name="menu" value="board" />
+		</c:import>
+		<c:import url="/WEB-INF/views/include/footer.jsp"/>
 	</div>
 </body>
 </html>

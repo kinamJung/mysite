@@ -22,7 +22,7 @@ public class GuestBookDAO {
 	
 	private static final String INSERT_GUESTBOOK_QUERY = "insert into GUESTBOOK values( GUESTBOOK_SEQ.nextval,? ,? , ?, SYSDATE )";
 	private static final String DELETE_GUESTBOOK_QUERY = "delete from GUESTBOOK  where no = ? and password=?";
-	private static final String SELECT_GUESTBOOK_QUERY = "select no, name, password, message, to_char(reg_date,'YYYY-MM-DD HH:MI:SS') from GUESTBOOK order by no asc";
+	private static final String SELECT_GUESTBOOK_QUERY = "select no, name, password, message, to_char(reg_date,'YYYY-MM-DD HH:MI:SS') from GUESTBOOK order by no desc";
 	
 	
 	private Connection getConnection() throws SQLException {

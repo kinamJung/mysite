@@ -38,3 +38,25 @@ commit;
           member b
     where a.member_no = b.no
  order by a.reg_date desc;
+ 
+
+
+      SELECT  *
+		FROM ( 
+				SELECT A.*, ROWNUM AS RNUM,
+            			  COUNT(*) OVER() AS TOTCNT
+        		 FROM ( 
+				          SELECT   a.NO, a.TITLE, a.CONTENT, a.MEMBER_NO, b.NAME, a.VIEW_CNT ,a.REG_DATE
+                	      from board a , member b 
+    					   where a.member_no = b.no
+ 						  order by a.reg_date desc 
+					   ) 
+			  A )
+	   WHERE RNUM > 0 AND RNUM <= 5;
+
+--
+
+ 
+ commit;
+ select count(*) as count from board;
+ 

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page import="com.hanains.mysite.vo.UserVo"%>
 <% 	
 	UserVo authUser= (UserVo)session.getAttribute("authUser");
@@ -15,7 +19,7 @@
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"/>
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="" method="post">
@@ -31,57 +35,55 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<tr>
-						<td>3</td>
-						<td><a href="">세 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td><a href="">두 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td><a href="">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
+				
+					<c:set value="${fn:length(list) }" var="count"></c:set>
+					<c:forEach items="${list }" var="vo" varStatus="status">
+						<tr>
+							<td> ${count-status.index } </td>
+							<td> <a href="/mysite/bs?a=boardView&no=${vo.no}&memberNo=${vo.memberNo}">${vo.title}</a>   </td>
+							<td>${vo.name}</td> 
+							<td>${vo.viewCount}</td>
+							<td>${vo.date}</td>
+							<c:if test="${ vo.memberNo eq authUser.no }">
+								<td><a href="/mysite/bs?a=delete&no=${vo.no}" class="del"><font color="black">삭제</font></a></td>
+							</c:if>
+							
+						</tr>
+					</c:forEach>
+				
+					
 				</table>
 				<div class="pager">
 					<ul>
 						<li class="pg-prev"><a href="#">◀ 이전</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li class="disable">4</li>
-						<li class="disable">5</li>
+						
+						<c:forEach begin="1" end="5" varStatus="status">
+							<c:choose>
+								<c:when test="${size >= status.count}">
+									<li><a href='/mysite/bs?a=displayPaging&index=${status.index}&size=${size}'>${status.index}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="disable">${status.index }</li>
+								</c:otherwise>
+							</c:choose>
+		
+						</c:forEach>
+					
 						<li class="pg-next"><a href="#">다음 ▶</a></li>
 					</ul>
 				</div>
-				<%
-					if( authUser != null ){
-				%>
-						<div class="bottom">
-							<a href="/mysite/bs?a=writeForm&no=<%=authUser.getNo() %>" id="new-book">글쓰기</a>
+				<c:if test="${ not empty authUser }">
+					<div class="bottom">
+							<a href="/mysite/bs?a=writeForm&no=${authUser.no}" id="new-book">글쓰기</a>
 						</div>
-				<%
-					}
-				%>
-
-
+				</c:if>
+				
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/navigation.jsp">
+			<c:param name="menu" value="board" />
+		</c:import>
+		<c:import url="/WEB-INF/views/include/footer.jsp"/>
 	</div>
 </body>
 </html>

@@ -25,8 +25,8 @@ public class LoginAction implements Action {
 		UserVo vo = dao.get(email, password);
 		
 		if(vo == null){
-			HttpUtil.redirect(response, "/mysite/user?a=loginform&result=fail");
-			//HttpUtil.forwarding(request, response, "/WEB-INF/views/user/loginform_retry.jsp");
+			//HttpUtil.redirect(response, "/mysite/user?a=loginform&result=fail");
+			HttpUtil.forwarding(request, response, "/WEB-INF/views/user/loginform_retry.jsp");
 			
 			return; // redirect는 화면은 바뀌지만 코드는 끝나지 않는다 -> 고로 에러 발생할 확률이 크다 따라서 꼭 Return을 시킨다.
 		}

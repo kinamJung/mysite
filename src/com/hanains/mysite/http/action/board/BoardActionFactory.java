@@ -15,6 +15,12 @@ public class BoardActionFactory extends ActionFactory {
 			action = new WriteFormAction();
 		} else if (actionName.equals("write")) {
 			action = new WriteAction();
+		}else if (actionName.equals("boardView")) {
+			action = new BoardViewAction();
+		}else if (actionName.equals("delete")) {
+			action = new DeleteAction();
+		}else if (actionName.equals("displayPaging")) {
+			action = new DisplayPagingAction();
 		}else {
 			action = new ListAction();
 		}

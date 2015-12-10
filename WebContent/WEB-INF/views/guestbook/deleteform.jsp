@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
     
 <%
 	String no = request.getParameter("no");
@@ -13,7 +17,7 @@
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"/>
 		<div id="content">
 			<div id="guestbook" class="delete-form">
 				<form method="post" action="/mysite/gs">
@@ -23,11 +27,13 @@
 					<input type="password" name="password">
 					<input type="submit" value="확인">
 				</form>
-				<a href="">방명록 리스트</a>
+				<a href="/mysite/gs">방명록 리스트</a>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/include/navigation.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/navigation.jsp">
+			<c:param name="menu" value="guestbook" />
+		</c:import>
+		<c:import url="/WEB-INF/views/include/footer.jsp"/>
 	</div>
 </body>
 </html>

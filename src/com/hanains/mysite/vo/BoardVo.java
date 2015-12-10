@@ -35,6 +35,16 @@ public class BoardVo {
 		this.viewCount = viewCount;
 		this.regDate = regDate;
 	}
+	
+	public BoardVo(Long no, String title, String content, Long memberNo) {
+		super();
+		this.no = no;
+		this.title = title;
+		this.content = content;
+		this.memberNo = memberNo;
+	}
+
+
 	public Long getNo() {
 		return no;
 	}
