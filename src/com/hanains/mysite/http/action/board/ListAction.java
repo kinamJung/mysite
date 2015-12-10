@@ -22,8 +22,11 @@ public class ListAction implements Action {
 		BoardDAO dao = new BoardDAO();
 		
 		List<BoardInfo> list = dao.getListByFaging(1, 5);
-		int size = dao.getBoardCount() ;
-		size = (size / 5) + 1;
+		int tempSize = dao.getBoardCount() ;
+		int size = (tempSize / 5) + 1;
+		if( tempSize % 5 == 0 ){
+			size = size-1;
+		}
 		
 		request.setAttribute("size", size);
 		request.setAttribute("list", list);

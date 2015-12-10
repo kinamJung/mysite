@@ -39,7 +39,7 @@
 					<c:set value="${fn:length(list) }" var="count"></c:set>
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
-							<td> ${count-status.index } </td>
+							<td> ${vo.articleSequence } </td>
 							<td> <a href="/mysite/bs?a=boardView&no=${vo.no}&memberNo=${vo.memberNo}">${vo.title}</a>   </td>
 							<td>${vo.name}</td> 
 							<td>${vo.viewCount}</td>

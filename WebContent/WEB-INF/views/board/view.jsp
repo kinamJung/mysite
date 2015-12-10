@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
+<% 	
+	pageContext.setAttribute("crlf", "\r\n"); 
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +30,7 @@
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-							${boardVo.content }
+							${fn:replace(boardVo.content,crlf,'<br/>')}
 							</div>
 						</td>
 					</tr>

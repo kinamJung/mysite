@@ -264,9 +264,12 @@ public class BoardDAO {
 					String memberName = rs.getString("name");
 					Long viewCount = rs.getLong("view_cnt");
 					String date = rs.getString("reg_date");
+					int rNum = rs.getInt("rnum");
+					int totCnt = rs.getInt("totcnt");
 
 					BoardInfo vo = new BoardInfo(no, title, memberNo, memberName,
 							viewCount, date);
+					vo.setArticleSequence(totCnt-rNum+1);
 
 					list.add(vo);
 				}
