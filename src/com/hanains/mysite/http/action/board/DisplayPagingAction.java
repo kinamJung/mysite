@@ -21,13 +21,13 @@ public class DisplayPagingAction implements Action {
 
 		String no = request.getParameter("index");
 		int iNo = Integer.parseInt(no);
+		
 		String size = request.getParameter("size");
 		int iSize = Integer.parseInt(size);
 		
 		
 		BoardDAO dao = new BoardDAO();
 		List<BoardInfo> list =dao.getListByFaging(iNo, 5);
-		
 		
 		
 		request.setAttribute("size", iSize);

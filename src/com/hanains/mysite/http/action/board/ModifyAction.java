@@ -11,33 +11,30 @@ import com.hanains.http.action.Action;
 import com.hanains.mysite.dao.BoardDAO;
 import com.hanains.mysite.vo.BoardVo;
 
-public class BoardViewAction implements Action {
+public class ModifyAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 		String no = request.getParameter("no");
-		String memberNo = request.getParameter("memberNo");
-		
-		if(no == null){
-			HttpUtil.redirect(response, "/mysite/bs");
-			return;
-		}
-		
 		Long lNo = Long.parseLong(no);
 		
-		//Get Board Info
-		BoardDAO dao = new BoardDAO();
-		BoardVo vo = dao.getBoardVo(lNo );
+		BoardVo vo = new BoardVo();
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setNo(lNo);
 		
-		//Update view Count
-		dao.updateViewCount(lNo);		
+		BoardDAO dao = new BoardDAO();
+		dao.updateBoard(vo);
+		
 		request.setAttribute("boardVo", vo);
 		
 		HttpUtil.forwarding(request, response, "/WEB-INF/views/board/view.jsp");
-
+		
 	}
 
 }

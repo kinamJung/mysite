@@ -9,17 +9,12 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.hanains.mysite.util.Common;
 import com.hanains.mysite.vo.BoardInfo;
 import com.hanains.mysite.vo.BoardVo;
 import com.hanains.mysite.vo.GuestBookVo;
 
 public class BoardDAO {
-
-	private static final String ORCLE_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String CONNECT_DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String DB_ID = "webdb";
-	private static final String DB_PASSWORD = "webdb";
-
 	private static final String INSERT_BOARD_QUERY = " insert "
 			+ " into board "
 			+ " values ( board_no_seq.nextval, ?, ?, ?, 0, SYSDATE )";
@@ -43,16 +38,30 @@ public class BoardDAO {
 																  			+ "  A )  "
 																  + "WHERE RNUM > ? AND RNUM <= ?";
 	
+	private static final String SELECT_BOARD_WORD_SEARCH_QUERY = " SELECT * "
+																  + "FROM ( "
+															  		+ "SELECT A.*, ROWNUM AS RNUM, COUNT(*) OVER() AS TOTCNT "
+															  		+ "FROM ("
+															  			+ "SELECT a.NO, a.TITLE, a.CONTENT, a.MEMBER_NO, b.NAME, a.VIEW_CNT, a.REG_DATE "
+															  			+ "from board a , member b "
+															  			+ "WHERE a.member_no = b.no AND a.TITLE like ? "
+															  			+ "order by a.reg_date desc )"
+															  			+ "  A )  "
+															  	 + "WHERE RNUM > ? AND RNUM <= ?";
+	
+	private static final String UPDATE_BOARD_QUERY = "UPDATE board SET title = ?, content = ? WHERE no = ?";
+	
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 
 		try {
 			// Load Driver(Class Dynamic Loading)
-			Class.forName(ORCLE_DRIVER);
+			Class.forName(Common.ORCLE_DRIVER);
 
 			// Connect DB
-			String url = CONNECT_DB_URL;
-			conn = DriverManager.getConnection(url, DB_ID, DB_PASSWORD);
+			String url = Common.CONNECT_DB_URL;
+			conn = DriverManager.getConnection(url, Common.DB_USER, Common.DB_PASSWORD);
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("[error] Fail Diver loading :" + e);
@@ -80,8 +89,7 @@ public class BoardDAO {
 											// executeUpdate
 			while (rs.next()) {
 				int index = 1;
-			
-				count = rs.getInt(1);
+				count = rs.getInt(index);
 				break;
 			}
 		} catch (SQLException e) {
@@ -102,6 +110,53 @@ public class BoardDAO {
 			}
 		}
 		return count;
+	}
+	
+	
+	public boolean updateBoard( BoardVo vo )
+	{
+		
+		boolean retVal = false;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			// Ready Statement
+			pstmt = conn.prepareStatement(UPDATE_BOARD_QUERY);
+
+			// binding
+			int index = 1;
+			pstmt.setString(index++, vo.getTitle());
+			pstmt.setString(index++, vo.getContent());
+			pstmt.setLong(index, vo.getNo());
+
+			// Execute SQL
+			pstmt.executeUpdate();
+			retVal = true;
+
+		} catch (SQLException e) {
+			System.out.println("[error] SQL :" + e);
+		} finally {
+
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		return retVal;
+		
+		
 	}
 	
 	//Delete Board_INFO
@@ -237,6 +292,66 @@ public class BoardDAO {
 		return vo;
 	}
 
+		public List<BoardInfo> getListByFaging(int pagingCount, int displayArticleCount, String word)
+		{
+			List<BoardInfo> list = new ArrayList<BoardInfo>();
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				conn = getConnection();
+
+				// Create Statement
+				pstmt = conn.prepareStatement(SELECT_BOARD_WORD_SEARCH_QUERY);
+				pstmt.setString(1, "%"+word+"%");
+				pstmt.setInt(2, (pagingCount-1) * displayArticleCount);
+				pstmt.setInt(3, pagingCount * displayArticleCount);
+				
+				
+				// Execute SQL
+				rs = pstmt.executeQuery();
+				// executeUpdate
+				while (rs.next()) {
+					int index = 1;
+					Long no = rs.getLong("no");
+					String title = rs.getString("title");
+					Long memberNo = rs.getLong("member_no");
+					String memberName = rs.getString("name");
+					Long viewCount = rs.getLong("view_cnt");
+					String date = rs.getString("reg_date");
+					int rNum = rs.getInt("rnum");
+					int totCnt = rs.getInt("totcnt");
+
+					BoardInfo vo = new BoardInfo(no, title, memberNo, memberName,
+							viewCount, date);
+					vo.setArticleSequence(totCnt-rNum+1);
+
+					list.add(vo);
+				}
+			} catch (SQLException e) {
+				System.out.println("[error] SQL :" + e);
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (pstmt != null) {
+						pstmt.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return list;
+			
+			
+		}
+	
+	
 		// Get List BoarndInfo By Count
 		public List<BoardInfo> getListByFaging(int pagingCount, int displayArticleCount) {
 

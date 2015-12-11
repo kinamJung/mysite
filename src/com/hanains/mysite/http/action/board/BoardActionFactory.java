@@ -15,16 +15,24 @@ public class BoardActionFactory extends ActionFactory {
 			action = new WriteFormAction();
 		} else if (actionName.equals("write")) {
 			action = new WriteAction();
-		}else if (actionName.equals("boardView")) {
+		} else if (actionName.equals("boardView")) {
 			action = new BoardViewAction();
-		}else if (actionName.equals("delete")) {
+		} else if (actionName.equals("delete")) {
 			action = new DeleteAction();
-		}else if (actionName.equals("displayPaging")) {
+		} else if (actionName.equals("displayPaging")) {
 			action = new DisplayPagingAction();
-		}else {
+		} else if (actionName.equals("search")) {
+			action = new SearchAction();
+		} else if (actionName.equals("modifyForm")) {
+			action = new ModifyForm();
+		} else if (actionName.equals("modify")) {
+			action = new ModifyAction();
+		}
+
+		else {
 			action = new ListAction();
 		}
-		
+
 		return action;
 	}
 

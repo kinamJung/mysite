@@ -9,16 +9,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hanains.mysite.util.Common;
 import com.hanains.mysite.vo.GuestBookVo;
 
 
 
 public class GuestBookDAO {
 
-	private static final String ORCLE_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String CONNECT_DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String DB_ID = "webdb";
-	private static final String DB_PASSWORD = "webdb";
+	
+
 	
 	private static final String INSERT_GUESTBOOK_QUERY = "insert into GUESTBOOK values( GUESTBOOK_SEQ.nextval,? ,? , ?, SYSDATE )";
 	private static final String DELETE_GUESTBOOK_QUERY = "delete from GUESTBOOK  where no = ? and password=?";
@@ -30,11 +29,11 @@ public class GuestBookDAO {
 
 		try {
 			// Load Driver(Class Dynamic Loading)
-			Class.forName(ORCLE_DRIVER);
+			Class.forName(Common.ORCLE_DRIVER);
 
 			// Connect DB
-			String url = CONNECT_DB_URL;
-			conn = DriverManager.getConnection(url, DB_ID, DB_PASSWORD);
+			String url = Common.CONNECT_DB_URL;
+			conn = DriverManager.getConnection(url, Common.DB_USER, Common.DB_PASSWORD);
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("[error] Fail Diver loading :" + e);
