@@ -12,6 +12,7 @@ import com.hanains.http.action.Action;
 import com.hanains.http.action.ActionFactory;
 import com.hanains.mysite.http.action.board.BoardActionFactory;
 import com.hanains.mysite.http.action.guestbook.GuestBookActionFactory;
+import com.oreilly.servlet.MultipartRequest;
 
 /**
  * Servlet implementation class BoardServlet
@@ -19,23 +20,27 @@ import com.hanains.mysite.http.action.guestbook.GuestBookActionFactory;
 @WebServlet("/bs")
 public class BoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
- 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		ActionFactory actionFactory = new BoardActionFactory();
-		 
-		String actionName = request.getParameter("a");
-		Action action = actionFactory.getAction(actionName);
-		
-		action.execute(request, response);
-	
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		doPost(request, response);
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		ActionFactory actionFactory = new BoardActionFactory();
+		String actionName = request.getParameter("a");
+		
+		Action action = actionFactory.getAction(actionName);
+
+		action.execute(request, response);
+
 	}
+	
+	
 
 }

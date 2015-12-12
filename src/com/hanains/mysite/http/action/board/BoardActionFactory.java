@@ -27,9 +27,7 @@ public class BoardActionFactory extends ActionFactory {
 			action = new ModifyForm();
 		} else if (actionName.equals("modify")) {
 			action = new ModifyAction();
-		}
-
-		else {
+		} else {
 			action = new ListAction();
 		}
 

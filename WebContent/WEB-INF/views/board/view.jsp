@@ -26,6 +26,7 @@
 						<td class="label">제목</td>
 						<td>${boardVo.title}</td>
 					</tr>
+
 					<tr>
 						<td class="label">내용</td>
 						<td>

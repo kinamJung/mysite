@@ -49,7 +49,7 @@ COMMIT;
    WHERE a.member_no = b.no
 ORDER BY a.reg_date DESC;
 
-
+select count(*) as count from board where title like ?;
 
 SELECT *
   FROM (SELECT A.*, ROWNUM AS RNUM, COUNT (*) OVER () AS TOTCNT

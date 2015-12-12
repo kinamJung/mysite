@@ -23,9 +23,11 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="/mysite/bs" method="post">
-					<input type="hidden" name="a" value="search" >
-					<input type="text" id="kwd" name="kwd" value=""> 
-					<input type="submit" value="찾기">
+					<input type="hidden" name="a" value="search"> <input
+						type="hidden" name="index" value="${param.index }"> <input
+						type="hidden" name="size" value="${size }"> <input
+						type="text" id="kwd" name="search" value="${search}"> <input
+						type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -48,20 +50,25 @@
 							<td>${vo.date}</td>
 							<td><c:if test="${ vo.memberNo eq authUser.no }">
 									<a href="/mysite/bs?a=delete&no=${vo.no}" class="del"><font
-											color="black">삭제</font></a>
+										color="black">삭제</font></a>
 								</c:if></td>
 						</tr>
 					</c:forEach>
 				</table>
 				<div class="pager">
 					<ul>
-						<li class="pg-prev"><a href="#">◀ 이전</a></li>
+						<c:if test="${ index-1 != 0 }">
+							<li class="pg-prev"><a
+								href="/mysite/bs?a=displayPaging&index=${index-1}&size=${size}&search=${search}">◀
+									이전</a></li>
 
-						<c:forEach begin="1" end="5" varStatus="status">
+						</c:if>
+
+						<c:forEach begin="1" end="${size}" varStatus="status">
 							<c:choose>
 								<c:when test="${size >= status.count}">
 									<li><a
-										href='/mysite/bs?a=displayPaging&index=${status.index}&size=${size}'>
+										href='/mysite/bs?a=displayPaging&index=${status.index}&size=${size}&search=${search}'>
 											<!-- Color To Paging Index --> <c:choose>
 												<c:when test="${ status.index eq param.index }">
 													<font color="red">${status.index}</font>
@@ -82,7 +89,12 @@
 							</c:choose>
 						</c:forEach>
 
-						<li class="pg-next"><a href="#">다음 ▶</a></li>
+						<c:if test="${ index != size }">
+							<li class="pg-next"><a
+							href="/mysite/bs?a=displayPaging&index=${index+1}&size=${size}&search=${search}">다음
+								▶</a></li>
+						</c:if>
+						
 					</ul>
 				</div>
 				<c:if test="${ not empty authUser }">

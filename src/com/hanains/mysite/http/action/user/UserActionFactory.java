@@ -18,13 +18,17 @@ public class UserActionFactory extends ActionFactory {
 			action = new JoinAction();
 		} else if (actionName.equals("joinsuccess")) {
 			action = new JoinSuccessAction();
-		}else if (actionName.equals("loginForm")) {
+		} else if (actionName.equals("loginForm")) {
 			action = new LoginFormAction();
-		}else if (actionName.equals("login")) {
+		} else if (actionName.equals("login")) {
 			action = new LoginAction();
-		}else if (actionName.equals("logout")) {
+		} else if (actionName.equals("logout")) {
 			action = new LogoutAction();
-		}else {
+		} else if (actionName.equals("modifyForm")) {
+			action = new ModifyFormAction();
+		} else if (actionName.equals("modify")) {
+			action = new ModifyAction();
+		} else {
 			action = new IndexAction();
 		}
 

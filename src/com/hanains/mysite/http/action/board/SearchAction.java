@@ -18,27 +18,46 @@ public class SearchAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		int pagingIndex = 1; // 현재 페이지를 가리킬 변수
+		List<BoardInfo> list = null;
 		
-		int pagingIndex = 1; //현재 페이지를 가리킬 변수
-		String keyword = request.getParameter("kwd");
-		//Query 
+		String keyword = request.getParameter("search");
+		
+		// Query
 		BoardDAO dao = new BoardDAO();
-		List<BoardInfo> list = dao.getListByFaging(pagingIndex, Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE, keyword);
 		
-		//한 페이지에 보이는 게시글 수		
-		int paging = ( list.size() / Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE + 1) ;
-		if(paging % 5 == 0){
-			paging = paging-1;
+		// 한 페이지에 보이는 게시글 수
+		int onePagingShowBoard = -1;
+		int boaodCount = 0; // 필터링된 board 총 개수
+		if(keyword.equals("")){
+			System.out.println("[info]SearchAction...equals");
+			list = dao.getListByFaging(pagingIndex,
+					Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE);
+			boaodCount = dao.getBoardCount() ;
+			onePagingShowBoard = ( boaodCount / Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE) +1;
+		}else
+		{
+			list = dao.getListByFaging(pagingIndex,
+					Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE, keyword);
+			boaodCount = dao.getBoardCount(keyword) ;
+			onePagingShowBoard = (boaodCount / Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE) +1;
 		}
+
 		
+		if (boaodCount % Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE == 0) {
+			onePagingShowBoard = onePagingShowBoard - 1;
+		} 
 		
-		
+		System.out.println("[info]boardCount: "+boaodCount+", search: "+keyword+ ", list: " + list.size() +
+							", onePagingShowBoard: "+ onePagingShowBoard +", index: "+pagingIndex);
+		request.setAttribute("search", keyword);
 		request.setAttribute("list", list);
-		request.setAttribute("size", paging);
+		request.setAttribute("size", onePagingShowBoard);
 		request.setAttribute("index", pagingIndex);
-		
+
 		HttpUtil.forwarding(request, response, "/WEB-INF/views/board/list.jsp");
-		
+
 	}
 
 }

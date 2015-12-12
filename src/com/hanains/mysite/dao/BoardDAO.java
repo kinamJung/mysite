@@ -28,6 +28,8 @@ public class BoardDAO {
 	private static final String UPDATE_VIEW_COUNT_QUERY = "update board set view_cnt = view_cnt + 1 where no=?";
 	private static final String DELETE_BOARD_INFO_QUERY = "delete from board where no = ?";
 	private static final String SELECT_BOARD_COUNT_QUERY = " select count(*) as count from board";
+	private static final String SELECT_BOARD_COUNT_LIKE_WORD_QUERY = "select count(*) as count from board where title like ?";
+	
 	private static final String SELECT_BOARD_INFO_PAGING_QUERY = " SELECT * "
 																  + "FROM ( "
 																  		+ "SELECT A.*, ROWNUM AS RNUM, COUNT(*) OVER() AS TOTCNT "
@@ -52,6 +54,8 @@ public class BoardDAO {
 	private static final String UPDATE_BOARD_QUERY = "UPDATE board SET title = ?, content = ? WHERE no = ?";
 	
 	
+	
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 
@@ -69,8 +73,51 @@ public class BoardDAO {
 
 		return conn;
 	}
+	//Get Board_INFO_LIKE_WORK Count
+		public int getBoardCount(String word) {
+
+			int count = -1;
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				conn = getConnection();
+
+				// Create Statement
+				pstmt = conn.prepareStatement(SELECT_BOARD_COUNT_LIKE_WORD_QUERY);
+				pstmt.setString(1, "%"+word+"%");
+				
+				// Execute SQL
+				rs = pstmt.executeQuery(); // select문만 executeQuery, 이 외에는
+												// executeUpdate
+				
+				while (rs.next()) {
+					int index = 1;
+					count = rs.getInt(index);
+					break;
+				}
+			} catch (SQLException e) {
+				System.out.println("[error] SQL :" + e);
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (pstmt != null) {
+						pstmt.close();
+					}
+					if (conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return count;
+		}
 	
-		//Get Board_INFO Count
+	//Get Board_INFO Count
 	public int getBoardCount() {
 
 		int count = -1;

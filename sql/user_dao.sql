@@ -12,3 +12,7 @@ select no, name, email
   from member
  where email='kickscar@gmail.com'
    and password='1234';
+   
+   
+
+ 

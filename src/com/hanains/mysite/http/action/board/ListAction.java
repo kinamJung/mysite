@@ -24,14 +24,16 @@ public class ListAction implements Action {
 		
 		List<BoardInfo> list = dao.getListByFaging(1, Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE);
 		int tempSize = dao.getBoardCount() ;
-		int size = (tempSize / Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE) + 1;
-		if( tempSize % 5 == 0 ){
-			size = size-1;
+		int pagingSize = (tempSize / Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE) + 1;
+		if( tempSize % Common.SHOW_BOARD_WRITHING_COUNT_ON_PAGE == 0 ){
+			pagingSize = pagingSize-1;
 		}
 		
-		request.setAttribute("size", size);
+		request.setAttribute("search", "");
+		request.setAttribute("size", pagingSize);
 		request.setAttribute("list", list);
 		request.setAttribute("index", 1);
+		System.out.println("[info]ListAction ( pagingSize "+pagingSize+", list size: "+ list.size() + " )");
 		HttpUtil.forwarding(request, response, "/WEB-INF/views/board/list.jsp");
 		
 
