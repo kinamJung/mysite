@@ -22,15 +22,12 @@ public class ModifyAction implements Action {
 		String password =request.getParameter("password"); // 사용자가 수정 시 입력한 현재 암호
 		String uptPassword = request.getParameter("uptPassword"); // 바꿀 암호
 		
-		if(no == null)
-		{
-			HttpUtil.redirect(response, "/mysite/main");
-			return;
-		}
-		
 		UserDao dao = new UserDao();
 		String chkPassword = dao.getPassword(Long.parseLong(no));
-		if( chkPassword.equals(password) ){
+		
+		
+		if(chkPassword.equals( password ) == true
+				&& uptPassword.equals("") == false){
 			UserVo vo = new UserVo();
 			vo.setNo( Long.parseLong(no) );
 			vo.setPassword(uptPassword);

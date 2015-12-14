@@ -20,13 +20,12 @@ public class DisplayPagingAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		
-		
+		//parameter
 		String no = request.getParameter("index");
 		int iNo = Integer.parseInt(no);		
 		String keyword = request.getParameter("search");
 		
-		
+		//define		
 		BoardDAO dao = new BoardDAO();
 		List<BoardInfo> list = null;
 		
