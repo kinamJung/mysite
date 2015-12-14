@@ -23,11 +23,10 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="/mysite/bs" method="post">
-					<input type="hidden" name="a" value="search"> <input
-						type="hidden" name="index" value="${param.index }"> <input
-						type="hidden" name="size" value="${size }"> <input
-						type="text" id="kwd" name="search" value="${search}"> <input
-						type="submit" value="찾기">
+					<input type="hidden" name="a" value="search">
+					 <input type="hidden" name="index" value="${param.index }">
+					 <input type="text" id="kwd" name="search" value="${search}">
+					 <input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -59,7 +58,7 @@
 					<ul>
 						<c:if test="${ index-1 != 0 }">
 							<li class="pg-prev"><a
-								href="/mysite/bs?a=displayPaging&index=${index-1}&size=${size}&search=${search}">◀
+								href="/mysite/bs?a=displayPaging&index=${index-1}&search=${search}">◀
 									이전</a></li>
 
 						</c:if>
@@ -68,7 +67,7 @@
 							<c:choose>
 								<c:when test="${size >= status.count}">
 									<li><a
-										href='/mysite/bs?a=displayPaging&index=${status.index}&size=${size}&search=${search}'>
+										href='/mysite/bs?a=displayPaging&index=${status.index}&search=${search}'>
 											<!-- Color To Paging Index --> <c:choose>
 												<c:when test="${ status.index eq param.index }">
 													<font color="red">${status.index}</font>
@@ -91,10 +90,10 @@
 
 						<c:if test="${ index != size }">
 							<li class="pg-next"><a
-							href="/mysite/bs?a=displayPaging&index=${index+1}&size=${size}&search=${search}">다음
-								▶</a></li>
+								href="/mysite/bs?a=displayPaging&index=${index+1}&search=${search}">다음
+									▶</a></li>
 						</c:if>
-						
+
 					</ul>
 				</div>
 				<c:if test="${ not empty authUser }">

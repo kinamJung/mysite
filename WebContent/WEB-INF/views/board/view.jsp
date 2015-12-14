@@ -39,7 +39,7 @@
 				<div class="bottom">
 					<a href="/mysite/bs">글목록</a>
 					<c:if test="${authUser.no eq boardVo.memberNo }">
-						<a href="/mysite/bs?a=modifyForm&no=${boardVo.no}">글수정</a>
+						<a href="/mysite/bs?a=modifyForm&no=${boardVo.no}&memberNo=${boardVo.memberNo }">글수정</a>
 					</c:if>
 				</div>
 			</div>

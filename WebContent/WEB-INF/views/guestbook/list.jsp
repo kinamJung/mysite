@@ -4,7 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<% 	
+<%
+	//JSTL은 \\이 통하지 않는다. -> 따라서 자바로 치환 후 적용시킨다.
 	pageContext.setAttribute("crlf", "\r\n"); 
 %>
 <!doctype html>

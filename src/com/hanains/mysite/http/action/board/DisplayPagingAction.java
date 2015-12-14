@@ -19,19 +19,13 @@ public class DisplayPagingAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
+		
+		
 		
 		String no = request.getParameter("index");
-
-		int iNo = Integer.parseInt(no);
-		
-		String size = request.getParameter("size");
-		int pagingSize = Integer.parseInt(size);
-		
+		int iNo = Integer.parseInt(no);		
 		String keyword = request.getParameter("search");
 		
-		System.out.println("index: " + iNo + ",pagingSize: " +pagingSize+ ", keyword:" +keyword );
 		
 		BoardDAO dao = new BoardDAO();
 		List<BoardInfo> list = null;

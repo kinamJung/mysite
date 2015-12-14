@@ -19,6 +19,7 @@ public class ModifyForm implements Action {
 		// TODO Auto-generated method stub
 
 		String no = request.getParameter("no");
+		String memberNo = request.getParameter("memberNo");
 		if (no == null) {
 			HttpUtil.redirect(response, "/mysite/bs");
 			return;
@@ -28,9 +29,9 @@ public class ModifyForm implements Action {
 		// Get Board Info
 		BoardDAO dao = new BoardDAO();
 		BoardVo vo = dao.getBoardVo(lNo);
-
-		// Update view Count
-		dao.updateViewCount(lNo);
+		vo.setMemberNo(Long.parseLong(memberNo));
+		/*// Update view Count
+		dao.updateViewCount(lNo);*/
 		request.setAttribute("boardVo", vo);
 
 		HttpUtil.forwarding(request, response, "/WEB-INF/views/board/modify.jsp");

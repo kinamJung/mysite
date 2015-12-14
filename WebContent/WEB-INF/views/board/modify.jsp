@@ -20,6 +20,7 @@
 				<form class="board-form" method="post" action="/mysite/bs">
 				<input type="hidden" name="a" value="modify">
 				<input type="hidden" name="no" value="${boardVo.no}" >
+				<input type="hidden" name="memberNo" value="${boardVo.memberNo }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>

@@ -21,18 +21,19 @@ public class ModifyAction implements Action {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String no = request.getParameter("no");
+		String memberNo = request.getParameter("memberNo");
 		Long lNo = Long.parseLong(no);
 		
 		BoardVo vo = new BoardVo();
 		vo.setTitle(title);
 		vo.setContent(content);
 		vo.setNo(lNo);
+		vo.setMemberNo(Long.parseLong(memberNo));
 		
 		BoardDAO dao = new BoardDAO();
 		dao.updateBoard(vo);
 		
 		request.setAttribute("boardVo", vo);
-		
 		HttpUtil.forwarding(request, response, "/WEB-INF/views/board/view.jsp");
 		
 	}

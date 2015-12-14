@@ -31,10 +31,11 @@ public class BoardViewAction implements Action {
 		//Get Board Info
 		BoardDAO dao = new BoardDAO();
 		BoardVo vo = dao.getBoardVo(lNo );
-		
+		vo.setMemberNo( Long.parseLong( memberNo ));
 		//Update view Count
 		dao.updateViewCount(lNo);		
 		request.setAttribute("boardVo", vo);
+		
 		
 		HttpUtil.forwarding(request, response, "/WEB-INF/views/board/view.jsp");
 
